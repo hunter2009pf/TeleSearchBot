@@ -40,6 +40,9 @@ if __name__=="__main__":
     init_config()
     # 使用示例
     ROBOT_TOKEN = os.getenv("ROBOT_TOKEN")  # 替换为你的bot token
-    CHAT_ID = os.getenv("GROUP_ID")  # 群组ID
-    MESSAGE_TEXT = '晚上好，这是一条来自于中国区块链的机器人通知消息！'
+    CHAT_ID = os.getenv("USER_ID")  # 用户ID
+    # CHAT_ID = os.getenv("GROUP_ID")  # 群组ID
+    # MESSAGE_TEXT = '晚上好，这是一条来自于中国区块链的机器人通知消息！'
+    GROUP_LINK = os.getenv("GROUP_LINK")
+    MESSAGE_TEXT = f'邀请您加入群聊：{GROUP_LINK}'
     send_message(ROBOT_TOKEN, CHAT_ID, MESSAGE_TEXT)
