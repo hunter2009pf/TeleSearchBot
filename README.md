@@ -6,6 +6,10 @@ An intelligent robot for people to search on Telegram.
 2. import adsgram into the robot
 3. fix bugs and enhance the robot
 
+# Design
+![bot_plan](https://github.com/hunter2009pf/TeleSearchBot/assets/32154029/4ac387b5-9569-4480-a28b-279b58050367)
+
+
 # Log
 1. use API interface to get group ID, the returned message looks like this:
 ```
