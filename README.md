@@ -60,3 +60,7 @@ solution: https://github.com/tdlib/telegram-bot-api/issues/273
 4. Method of creating bots: https://www.kyzy.cc/350.html
 5. Sending messages to bots: https://blog.csdn.net/tz_zs/article/details/127110582
 6. Keeping critical info: https://www.bilibili.com/video/BV1Vj42197kj/?spm_id_from=333.999.0.0&vd_source=c2c36667f866bcdc49a4a305213efb64
+7. Telethon: https://github.com/LonamiWebs/Telethon
+8. Webhook: https://cloud.tencent.com/developer/ask/sof/104354741
+9. Elastic Search: https://www.elastic.co/cn/what-is/vector-search
+10. AdsGram: https://adsgram.ai/
