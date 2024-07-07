@@ -1,2 +1,4 @@
 requests
 python-dotenv==1.0.1
+fastapi==0.111.0
+Telethon==1.36.0
