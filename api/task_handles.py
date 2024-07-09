@@ -5,6 +5,7 @@ from constants.constants import TaskTypes
 from actions.interact_with_bot import BotInteracter
 from config.env_paras import EnvParas
 from utils.log_util import logger
+from common.llm_manager import LLMManager
 
 
 class TaskFactory:
@@ -37,13 +38,23 @@ class DefaultHandle(BaseHandle):
 
 class ChatGptHandle(BaseHandle):
     def handle(self, message: Message):
-        # echo message back
-        bi = BotInteracter(EnvParas.ROBOT_TOKEN)
-        result = bi.send_message(message.from_data.id, message.text)
-        if result:
-            logger.info(f"Echo message back to {message.from_data.id} successfully")
+        # ask Kimi about the question
+        # first of all, check if the kimi client exists
+        # if not, create one
+        session_id = message.from_data.id
+        if session_id in LLMManager.kimi_client_map:
+            client = LLMManager.kimi_client_map[session_id]
         else:
-            logger.error(f"Failed to echo message back to {message.from_data.id}")
+            client = LLMManager.create_kimi_client(session_id)
+        # then, send the question to kimi
+        answer = client.generate_response(message.text)
+        # finally, get the answer from kimi and send it back to the user
+        bi = BotInteracter(EnvParas.ROBOT_TOKEN)
+        result = bi.send_message(message.from_data.id, answer)
+        if result:
+            logger.info(f"send answer back to {message.from_data.id} successfully")
+        else:
+            logger.error(f"Failed to send answer back to {message.from_data.id}")
 
 
 class SearchKeywordHandle(BaseHandle):
