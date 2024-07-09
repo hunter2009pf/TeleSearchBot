@@ -13,6 +13,7 @@ class Urls:
         return self.BASE_URL + self.GET_UPDATES_URL.format(API_TOKEN=bot_token)
 
 
+
 class ToFrontendUrls:
     VERSION_URL = "/version"
     SEND_MESSAGE_URL_V1 = "/v1/robot/sendMessage"
