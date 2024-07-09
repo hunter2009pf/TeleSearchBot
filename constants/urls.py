@@ -16,3 +16,7 @@ class Urls:
 class ToFrontendUrls:
     VERSION_URL = "/version"
     SEND_MESSAGE_URL_V1 = "/v1/robot/sendMessage"
+
+
+class ToTeleUrls:
+    REC_MESSAGE_V1 = "/v1/robot/receiveMessage"

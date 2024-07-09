@@ -23,14 +23,32 @@ from constants.urls import Urls
 from utils.log_util import logger
 
 
+async def run_set_webhook():
+    print("start set webhook")
+    bot_agent = Bot(token=EnvParas.ROBOT_TOKEN)
+
+    value = await bot_agent.set_webhook(
+        url=f"{EnvParas.DOMAIN}/v1/robot/receiveMessage"
+    )
+    print("flesh set webhook value:", value)
+
+
+def run_async_in_thread():
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    task = loop.create_task(run_set_webhook())
+    try:
+        loop.run_until_complete(task)
+    finally:
+        loop.close()
+
+
 def start_service():
-    # set up webhook to receive messages from Telebot
-    # bot_agent = Bot(token=EnvParas.ROBOT_TOKEN)
-    # bot_agent.set_webhook(
-    #     url="https://bfe5-114-103-214-209.ngrok-free.app/v1/robot/receiveMessage"
-    # )
-    # use a thread to handle messages from Telebot
-    __start_thread()
+    print("start service...")
+
+    thread = threading.Thread(target=run_async_in_thread)
+    thread.daemon = True  # 设置为守护线程，以便在主程序退出时自动结束
+    thread.start()
 
     parser = argparse.ArgumentParser(description="Your application description.")
     parser.add_argument("--host", type=str, default="0.0.0.0", help="Host address")
