@@ -2,35 +2,28 @@ import argparse
 import asyncio
 import time
 import requests
-from asyncio import Queue
 from http import HTTPStatus
 import uvicorn
 import threading
 from telegram import Bot
 from telegram import Update
-from telegram.ext import (
-    Updater,
-    CommandHandler,
-    MessageHandler,
-    filters,
-    CallbackContext,
-)
+from telegram.ext import CallbackContext
 
 from api.http_handles import app
 from config.env_paras import EnvParas
 from constants.constants import Constants
-from constants.urls import Urls
+from constants.urls import Urls, ToTeleUrls
 from utils.log_util import logger
 
 
 async def run_set_webhook():
-    print("start set webhook")
+    logger.info("start set webhook")
     bot_agent = Bot(token=EnvParas.ROBOT_TOKEN)
 
-    value = await bot_agent.set_webhook(
-        url=f"{EnvParas.DOMAIN}/v1/robot/receiveMessage"
+    is_ok = await bot_agent.set_webhook(
+        url=f"{EnvParas.DOMAIN}{ToTeleUrls.RECEIVE_MESSAGE_V1}"
     )
-    print("flesh set webhook value:", value)
+    logger.info(f"set webhook result: {is_ok}")
 
 
 def run_async_in_thread():
@@ -44,7 +37,7 @@ def run_async_in_thread():
 
 
 def start_service():
-    print("start service...")
+    logger.info("start service...")
 
     thread = threading.Thread(target=run_async_in_thread)
     thread.daemon = True  # 设置为守护线程，以便在主程序退出时自动结束
