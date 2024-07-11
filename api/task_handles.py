@@ -1,9 +1,12 @@
 from abc import ABC
+
+from builders.searchbuilders.base_search_builder import BaseSearchBuilder
 from models.tele_message import Message
 from classifiers.message_classifier import MessageClassifier
-from constants.constants import TaskTypes
+from constants.constants import TaskTypes, ElasticIndices
 from actions.interact_with_bot import BotInteracter
 from config.env_paras import EnvParas
+from services.elastic_service import ElasticService
 from utils.log_util import logger
 from common.llm_manager import LLMManager
 
@@ -59,17 +62,36 @@ class ChatGptHandle(BaseHandle):
 
 class SearchKeywordHandle(BaseHandle):
     def handle(self, message: Message):
-        # recommend Ton channel and Ton group
+        search_keyword = message.text
         bi = BotInteracter(EnvParas.ROBOT_TOKEN)
-        # 假设你已经有了群组和频道的邀请链接
-        group_link = "https://t.me/tondev_eng"
-        channel_link = "https://t.me/toncontests"
-        # 创建文本，包含群组和频道的链接
-        recommendation = (
-            "为您检索到以下群组和频道：\n"
-            f"Ton开发者群组：{group_link}\n"
-            f"Ton竞赛频道：{channel_link}"
-        )
+
+        search_builder = BaseSearchBuilder()
+        search_builder.keywords([search_keyword], ["name", "description"])
+        es_service = ElasticService()
+        resp = es_service.search(search_builder, index=[ElasticIndices.CHANNEL, ElasticIndices.GROUP])
+        respBody = resp.body
+        hits = respBody["hits"]
+        total = hits["total"]["value"]
+        hitDatum = hits["hits"]
+        if total == 0:
+            bi.send_message(message.from_data.id, "没有搜索到结果")
+            return
+
+        # 搜索到内容
+        recommendation = "为您搜索到以下结果：\n"
+        for hitData in hitDatum:
+            index_name = hitData["_index"]
+            data_source = hitData["_source"]
+            name = data_source["name"]
+            link = data_source["link"]
+            member_num = data_source["member_num"]
+            content_tag_str = "群组"
+            if index_name == ElasticIndices.CHANNEL:
+                content_tag_str = "频道"
+
+            recommendation += f"{content_tag_str} {name}({member_num}) {link} \n"
+        print("rep_text:", recommendation)
+
         result = bi.send_message(message.from_data.id, recommendation)
         if result:
             logger.info(f"Echo message back to {message.from_data.id} successfully")

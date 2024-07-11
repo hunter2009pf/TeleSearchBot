@@ -19,3 +19,8 @@ class TaskTypes(Enum):
     DO_NOTHING = 0
     ASK_CHATGPT = 1
     SEARCH_KEYWORD = 2
+
+
+class ElasticIndices:
+    CHANNEL = "channels"
+    GROUP = "groups"

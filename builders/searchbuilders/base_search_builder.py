@@ -18,7 +18,7 @@ class BaseSearchBuilder:
     def keywords(self, worlds: list[str], weights=[]):
         if not worlds:
             return self
-        for word in enumerate(worlds):
+        for word in worlds:
             self.params["body"]["query"]["bool"]["must"].append({
                 "multi_match": {
                     "query": word,
