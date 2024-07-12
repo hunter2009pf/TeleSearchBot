@@ -44,6 +44,32 @@ def multipliers():
     return [lambda x: i * x for i in range(4)]
 
 
+num = 1
+
+
+def fn():
+    global num
+    num += 1
+    return lambda: print(num)
+
+
+def outer(fn):
+    print("outer")
+
+    def inner():
+
+        print("inner")
+
+        return fn
+
+    return inner
+
+
+@outer
+def fun():
+    print("fun")
+
+
 if __name__ == "__main__":
     # a = []
     # if a:
@@ -86,13 +112,41 @@ if __name__ == "__main__":
 
     # print([m(2) for m in multipliers()])
 
-    m = {
-        "1": "abc",
-        "2": "yzg",
-        "3": "hij",
-    }
-    keys = list(m.keys())
-    vals = list(m.values())
-    indices = np.argsort(vals)
-    sorted_dict = {keys[i]: vals[i] for i in indices}
-    print(sorted_dict)
+    # m = {
+    #     "1": "abc",
+    #     "2": "yzg",
+    #     "3": "hij",
+    # }
+    # keys = list(m.keys())
+    # vals = list(m.values())
+    # indices = np.argsort(vals)
+    # sorted_dict = {keys[i]: vals[i] for i in indices}
+    # print(sorted_dict)
+
+    # arr = [1, 2, 3]
+    # arr.insert(2, [7, 8, 9])
+    # print(arr)
+
+    # x = fn()
+    # x()
+
+    # str = "Hello,Python"
+    # suffix = "Python"
+    # print(str.endswith(suffix, 2))
+
+    # dicts = {"one": 1, "two": 2, "three": 3}
+    # print(dicts["one"])
+
+    # temp = "ab".join(["1", "2", "3"])
+    # print(temp)
+    # temp = False
+    # print(temp)
+
+    # x = [1, 2, 3]
+    # x.insert(0, 10)
+    # print(x)
+
+    with open("nginx.log", "r") as f:
+        temp = f.readlines()
+        for line in temp:
+            print(line)

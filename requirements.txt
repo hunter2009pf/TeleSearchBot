@@ -6,3 +6,4 @@ pydantic==2.8.2
 # Telethon==1.36.0
 python-telegram-bot==21.3
 openai==1.35.10
+elasticsearch==8.14.0
