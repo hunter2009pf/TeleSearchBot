@@ -11,6 +11,27 @@ An intelligent robot for people to search on Telegram.
 # Design
 ![bot_plan](https://github.com/hunter2009pf/TeleSearchBot/assets/32154029/4ac387b5-9569-4480-a28b-279b58050367)
 
+# Timeline
+
+## Phase 1: Search Optimization
+- **Work Content**: Improve the accuracy and efficiency of search method with ElasticSearch.
+- **Deadline**: 2024-07-20
+
+## Phase 2: Classifier Optimization
+- **Work Content**: Add buttons on telebot UI for facilitating the users' operations. Enhance task classifier in the backend.
+- **Deadline**: 2024-07-27
+
+## Phase 3: Crawler Development
+- **Work Content**: Collect the infomation of channels and groups and insert the data into ElasticSearch. Create scripts or API interface to facilitate the insertion.
+- **Deadline**: 2024-08-03
+
+## Phase 4: Ton Chain Connection
+- **Work Content**: Import adsgram into telebot and connect telebot with ton chain.
+- **Deadline**: 2024-08-6
+
+## Phase 5: Domain Purchase
+- **Work Content**: Purchase domain and combine it with IP. Deploy the backend of telebot on Linux.
+- **Deadline**: 2024-08-10
 
 # Log
 1. use API interface to get group ID, the returned message looks like this:
