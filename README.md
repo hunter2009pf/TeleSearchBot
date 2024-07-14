@@ -33,6 +33,71 @@ An intelligent robot for people to search on Telegram.
 - **Work Content**: Purchase domain and combine it with IP. Deploy the backend of telebot on Linux.
 - **Deadline**: 2024-08-10
 
+# DSL
+```
+PUT /telegroups
+{
+  "mappings": {
+    "properties": {
+      "id" : {
+        "type" : "integer",
+        "index": false
+      },
+      "name": {
+        "type": "text",
+        "analyzer": "ik_smart"
+      },
+      "link": {
+        "type": "keyword", 
+        "index": false
+      },
+      "member_count": {
+        "type": "integer",
+        "index": false
+      },
+      "tags": {
+        "type": "keyword"
+      },
+      "description": {
+        "type": "text",
+        "analyzer": "ik_smart"
+      }
+    }
+  }
+}
+
+PUT /telechannels
+{
+  "mappings": {
+    "properties": {
+      "id" : {
+        "type" : "integer",
+        "index": false
+      },
+      "name": {
+        "type": "text",
+        "analyzer": "ik_smart"
+      },
+      "link": {
+        "type": "keyword", 
+        "index": false
+      },
+      "subscriber_count": {
+        "type": "integer",
+        "index": false
+      },
+      "tags": {
+        "type": "keyword"
+      },
+      "description": {
+        "type": "text",
+        "analyzer": "ik_smart"
+      }
+    }
+  }
+}
+```
+
 # Log
 1. use API interface to get group ID, the returned message looks like this:
 ```

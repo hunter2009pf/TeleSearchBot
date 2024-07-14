@@ -11,7 +11,7 @@ class BaseSearchBuilder:
                         "must_not": [],  # 所有的语都不能 (must no) 与匹配,与 NO 等价
                         "should": [],  # 至少 (or) 有一个语句要匹配,与 OR 等价
                     }
-                }
+                },
             }
         }
 
@@ -19,18 +19,20 @@ class BaseSearchBuilder:
         if not worlds:
             return self
         for word in worlds:
-            self.params["body"]["query"]["bool"]["must"].append({
-                "multi_match": {
-                    "query": word,
-                    "fields": weights,
+            self.params["body"]["query"]["bool"]["must"].append(
+                {
+                    "multi_match": {
+                        "query": word,
+                        "fields": weights,
+                    }
                 }
-            })
+            )
         return self
 
     def must_not(self, filed, value):
-        self.params['body']['query']['bool']['must_not'].append([{
-            "team": {filed: value}
-        }])
+        self.params["body"]["query"]["bool"]["must_not"].append(
+            [{"team": {filed: value}}]
+        )
         return self
 
     def paginate(self, page, page_size=10):
