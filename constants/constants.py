@@ -22,5 +22,7 @@ class TaskTypes(Enum):
 
 
 class ElasticIndices:
-    CHANNEL = "channels"
-    GROUP = "groups"
+    # CHANNEL = "channels"
+    CHANNEL = "telechannels"
+    # GROUP = "groups"
+    GROUP = "telegroups"

@@ -68,7 +68,9 @@ class SearchKeywordHandle(BaseHandle):
         search_builder = BaseSearchBuilder()
         search_builder.keywords([search_keyword], ["name", "description"])
         es_service = ElasticService()
-        resp = es_service.search(search_builder, index=[ElasticIndices.CHANNEL, ElasticIndices.GROUP])
+        resp = es_service.search(
+            search_builder, index=[ElasticIndices.CHANNEL, ElasticIndices.GROUP]
+        )
         respBody = resp.body
         hits = respBody["hits"]
         total = hits["total"]["value"]
@@ -84,7 +86,12 @@ class SearchKeywordHandle(BaseHandle):
             data_source = hitData["_source"]
             name = data_source["name"]
             link = data_source["link"]
-            member_num = data_source["member_num"]
+            if "member_count" in data_source:
+                member_num = data_source["member_count"]
+            elif "subscriber_count" in data_source:
+                member_num = data_source["subscriber_count"]
+            else:
+                member_num = 0
             content_tag_str = "群组"
             if index_name == ElasticIndices.CHANNEL:
                 content_tag_str = "频道"
