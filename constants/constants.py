@@ -5,6 +5,8 @@ class Constants:
     SERVICE_NAME = "Telegram Search Robot"
     VERSION = "0.0.1"
     ENVIRONMENT_FILE_NAME = "config.env"
+    TELECHANNEL_IN_CHINESE = "频道"
+    TELEGROUP_IN_CHINESE = "群组"
     DEFAULT_OFFSET = -1
     DEFAULT_ROUND_QUERY_TIEM_INTERVAL_IN_SECONDS = 6
     KEYWORD_MAX_LENGTH = 16

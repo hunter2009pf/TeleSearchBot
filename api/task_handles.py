@@ -2,6 +2,7 @@ from abc import ABC
 
 from builders.searchbuilders.base_search_builder import BaseSearchBuilder
 from models.tele_message import Message
+from models.elasticsearch_schema import EsTeleChannel, EsTeleGroup
 from classifiers.message_classifier import MessageClassifier
 from constants.constants import TaskTypes, ElasticIndices
 from actions.interact_with_bot import BotInteracter
@@ -83,20 +84,20 @@ class SearchKeywordHandle(BaseHandle):
         recommendation = "为您搜索到以下结果：\n"
         for hitData in hitDatum:
             index_name = hitData["_index"]
-            data_source = hitData["_source"]
-            name = data_source["name"]
-            link = data_source["link"]
-            if "member_count" in data_source:
-                member_num = data_source["member_count"]
-            elif "subscriber_count" in data_source:
-                member_num = data_source["subscriber_count"]
-            else:
-                member_num = 0
-            content_tag_str = "群组"
-            if index_name == ElasticIndices.CHANNEL:
-                content_tag_str = "频道"
+            logger.info(f"index name: {index_name}")
 
-            recommendation += f"{content_tag_str} {name}({member_num}) {link} \n"
+            data_source = hitData["_source"]
+            item = None
+            match index_name:
+                case ElasticIndices.CHANNEL:
+                    item = EsTeleChannel(**data_source)
+                case ElasticIndices.GROUP:
+                    item = EsTeleGroup(**data_source)
+                case _:
+                    logger.warning("es item can not be parsed")
+            if item is not None:
+                recommendation += item.self_introduce()
+
         print("rep_text:", recommendation)
 
         result = bi.send_message(message.from_data.id, recommendation)
