@@ -137,6 +137,13 @@ PUT /telechannels
 2. we can setup webhook to accept messages received by Telebots
 API: https://api.telegram.org/bot{my_bot_token}/setWebhook?url={url_to_send_updates_to}
 
+# Deployment
+1. start docker container
+   ```
+   docker build -t telesearchbot:v0.0.1 .
+   docker run --name telebot_test0 -p 8888:8888 -d telesearchbot:v0.0.1
+   ```
+
 # Problems
 1. got an error when create telegram application
 solution: https://github.com/tdlib/telegram-bot-api/issues/273
